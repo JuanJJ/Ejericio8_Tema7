@@ -27,7 +27,8 @@ and open the template in the editor.
                         var respuesta_json=peticion_http.responseText;
                         var categorias=eval("("+respuesta_json+")");
                         var texto="";
-                        for(let i=0;i<categorias.length;i++){
+                        console.log(categorias);
+                        for(var i=0;i<categorias.length;i++){
                             var idCategoria=categorias[i].codigoCategoria;
                             var categoria=categorias[i].nombreCategoria;
                             var opcion="<option value='"+idCategoria+"'>"+categoria+"</option>";

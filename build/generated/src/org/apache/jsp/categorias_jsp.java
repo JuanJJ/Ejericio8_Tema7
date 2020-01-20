@@ -53,16 +53,17 @@ public final class categorias_jsp extends org.apache.jasper.runtime.HttpJspBase
 
     Bd bd=new Bd();
     List<Categoria>listaCategoria=bd.getListaCategoria();
-    String resultado="";
+    String resultado="[";
     for(int i=0;i<listaCategoria.size();i++){
         Categoria cate=listaCategoria.get(i);
         int idCategoria=cate.getIdCategoria();
         String categoria=cate.getCategoria();
         resultado+="{codigoCategoria:"+idCategoria+",nombreCategoria:"+categoria+"}";
-        if(i!=listaCategoria.size()){
+        if(i!=listaCategoria.size()-1){
             resultado+=",";
         }
     }
+    resultado+="]";
 
     out.print(resultado);
 

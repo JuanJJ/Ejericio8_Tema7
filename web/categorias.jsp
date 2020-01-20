@@ -11,7 +11,7 @@
 <%
     Bd bd=new Bd();
     List<Categoria>listaCategoria=bd.getListaCategoria();
-    String resultado="";
+    String resultado="[";
     for(int i=0;i<listaCategoria.size();i++){
         Categoria cate=listaCategoria.get(i);
         int idCategoria=cate.getIdCategoria();
@@ -21,6 +21,7 @@
             resultado+=",";
         }
     }
+    resultado+="]";
 
     out.print(resultado);
 %>
