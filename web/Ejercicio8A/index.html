@@ -87,12 +87,12 @@ and open the template in the editor.
                         var tablaPeliculas=document.getElementById("tabla");
                         var respuesta_json=peticion_http.responseText;
                         var peliculas=eval("("+respuesta_json+")");
-                        var texto="<thead><th>Fila</th><th>idPelicula</th><th>Titulo</th></thead>";
+                        var texto="<thead><th>idPelicula</th><th>Titulo</th></thead>";
                         for(var i=0;i<peliculas.length;i++){
                             texto+="<tr>";
                             var idPelicula=peliculas[i].codigoPelicula;
                             var nombrePelicula=peliculas[i].nombrePelicula;
-                            var opcion="<td>"+(i+1)+"</td><td>"+idPelicula+"</td><td>"+nombrePelicula+"</td>";
+                            var opcion="<td>"+idPelicula+"</td><td>"+nombrePelicula+"</td>";
                             texto+=opcion;
                             texto+="</tr>";
                         }
@@ -122,7 +122,7 @@ and open the template in the editor.
             <td colspan="2" align="center">Encuentra tus pelis preferidas en el videoclub mas cercano</td>
         </tr>
         <tr>
-            <td colspan="2" align="center"><img src="imagenes/videoteca.gif"/></td>
+            <td colspan="2" align="center"><img src="../imagenes/videoteca.gif"/></td>
         </tr>
         <tr>
             <td align="right">
