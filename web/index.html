@@ -27,18 +27,79 @@ and open the template in the editor.
                         var respuesta_json=peticion_http.responseText;
                         var categorias=eval("("+respuesta_json+")");
                         var texto="";
-                        console.log(categorias);
                         for(var i=0;i<categorias.length;i++){
                             var idCategoria=categorias[i].codigoCategoria;
                             var categoria=categorias[i].nombreCategoria;
                             var opcion="<option value='"+idCategoria+"'>"+categoria+"</option>";
                             texto+=opcion;
                         }
-                        selectCategoria.innerHTML=texto;
+                        selectCategoria.innerHTML+=texto;
                     }
                 }
             }
 
+        }
+        
+        function cargarVideoclub(){
+            peticion_http = inicializa_xhr();
+            if(peticion_http){
+                peticion_http.onreadystatechange=cargarSelectVideoclub;
+                peticion_http.open('POST','videoclub.jsp',true);
+                peticion_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                var textoPost="categoria="+document.getElementById("categoria").value+"&nocache=" + Math.random();
+                peticion_http.send(textoPost);
+            }
+            
+            function cargarSelectVideoclub() {
+                if (peticion_http.readyState==4) {
+                    if (peticion_http.status==200) {
+                        var selectVideoclub=document.getElementById("videoclub");
+                        var respuesta_json=peticion_http.responseText;
+                        var videoclub=eval("("+respuesta_json+")");
+                        var texto="<option value='0'>Selecciona videoclub</option>";
+                        for(var i=0;i<videoclub.length;i++){
+                            var idVideoclub=videoclub[i].codigoVideoclub;
+                            var nombreVideoclub=videoclub[i].nombreVideoclub;
+                            var opcion="<option value='"+idVideoclub+"'>"+nombreVideoclub+"</option>";
+                            texto+=opcion;
+                        }
+                        selectVideoclub.innerHTML=texto;
+                    }
+                }
+            }
+        }
+        
+        function cargarPeliculas(){
+            peticion_http = inicializa_xhr();
+            if(peticion_http){
+                peticion_http.onreadystatechange=cargaPeliculas;
+                peticion_http.open('POST','peliculas.jsp',true);
+                peticion_http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                var idCategoria= document.getElementById("categoria").value;
+                var idVideoclub=document.getElementById("videoclub").value;
+                var textoPost="idVideoclub="+idVideoclub+"&idCategoria="+idCategoria+"&nocache=" + Math.random();
+                peticion_http.send(textoPost);
+            }
+            
+            function cargaPeliculas() {
+                if (peticion_http.readyState==4) {
+                    if (peticion_http.status==200) {
+                        var tablaPeliculas=document.getElementById("tabla");
+                        var respuesta_json=peticion_http.responseText;
+                        var peliculas=eval("("+respuesta_json+")");
+                        var texto="<thead><th>Fila</th><th>idPelicula</th><th>Titulo</th></thead>";
+                        for(var i=0;i<peliculas.length;i++){
+                            texto+="<tr>";
+                            var idPelicula=peliculas[i].codigoPelicula;
+                            var nombrePelicula=peliculas[i].nombrePelicula;
+                            var opcion="<td>"+(i+1)+"</td><td>"+idPelicula+"</td><td>"+nombrePelicula+"</td>";
+                            texto+=opcion;
+                            texto+="</tr>";
+                        }
+                        tablaPeliculas.innerHTML=texto;
+                    }
+                }
+            }
         }
 
         function inicializa_xhr() {
@@ -51,23 +112,50 @@ and open the template in the editor.
     </script>
 </head>
 
-<body onload="cargarCategorias()">
-    <div>
-        <h1>TODO-CINE PTO.COM</h1>
-    </div>
-    <div>
+<body onload="cargarCategorias()" style="font-family: sans-serif;font-size: 12px;">
+    <table width="400" border="0" align="center" bgcolor="#ebf4fb" cellpadding="6">
+        
+        <tr>
+            <td colspan="2" style="font-size: 15px;"><b>TODO-CINE PTO.COM</b></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">Encuentra tus pelis preferidas en el videoclub mas cercano</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><img src="imagenes/videoteca.gif"/></td>
+        </tr>
+        <tr>
+            <td align="right">
+                <span style="font-size: 13px;"><b>Categoria</b></span><br>
+                Selecciona una categoria
+            </td>
+            <td>
+                <select name="categoria" id="categoria" onchange="cargarVideoclub()">
+                    <option value="0">Selecciona categoria</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <span style="font-size: 13px;"><b>Videoclub</b></span><br>
+                Selecciona un videoclub
+            </td>
+            <td>
+                <select name="videoclub" id="videoclub">
+                    <option value="0">Selecciona videoclub</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="button" value="Aceptar" onclick="cargarPeliculas()" style="background: #666666; color: #ffffff;" />
+            </td>
+        </tr>
+        
+    </table>
+    <table width="400" border="0" align="center" bgcolor="#ebf4fb" cellpadding="6" id="tabla">
 
-        <label for="categoria">Categoria</label>
-        <select name="categoria" id="categoria">
-            <option value="0">Selecciona categoria</option>
-        </select>
-        <label for="videoclub">Videoclub</label>
-        <select name="videoclub" id="videoclub">
-            <option value="0">Selecciona videoclub</option>
-        </select>
-        <input type="button" value="Aceptar">
-
-    </div>
+    </table>
 </body>
 
 </html>

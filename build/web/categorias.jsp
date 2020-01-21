@@ -16,7 +16,7 @@
         Categoria cate=listaCategoria.get(i);
         int idCategoria=cate.getIdCategoria();
         String categoria=cate.getCategoria();
-        resultado+="{codigoCategoria:"+idCategoria+",nombreCategoria:"+categoria+"}";
+        resultado+="{codigoCategoria:'"+idCategoria+"',nombreCategoria:'"+categoria+"'}";
         if(i!=listaCategoria.size()-1){
             resultado+=",";
         }
